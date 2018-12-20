@@ -23,6 +23,8 @@ namespace MyTextRecognition
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new MainWindowViewModel();
         }
     }
 }
