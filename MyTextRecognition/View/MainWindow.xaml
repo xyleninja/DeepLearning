@@ -28,7 +28,7 @@
                     <Canvas Name="can_input" Height="16" Width="16" Cursor="Pen" MouseDown="can_input_MouseDown" MouseMove="can_input_MouseMove" Background="White"/>
                 </Viewbox>
             </Border>
-            <Button Content="Clear" Click="b_clear_Click" Margin="10,0"/>
+            <Button Content="Clear" ToolTip="Clears the Input Canvas." Click="b_clear_Click" Margin="10,0"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="2">
             <Label Content="Output"/>
@@ -55,12 +55,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="&lt;" Grid.Column="0" Click="b_prevChar_Click"/>
-                <Button Content="&gt;" Grid.Column="1" Click="b_nextChar_Click"/>
+                <Button Content="&lt;" ToolTip="Sets the training character to its' predecessor." Grid.Column="0" Click="b_prevChar_Click"/>
+                <Button Content="&gt;" ToolTip="Sets the training character to its' successor." Grid.Column="1" Click="b_nextChar_Click"/>
             </Grid>
         </StackPanel>
         <TabControl Grid.Row="1" Grid.Column="3" Background="#f0f0f0" Margin="10">
-            <TabItem Header="Single Layer">
+            <TabItem ToolTip="Single Layer Perceptron" Header="Single Layer">
                 <DockPanel Margin="10">
                     <Label Content="Single Layer Perceptron" DockPanel.Dock="Top"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
@@ -70,11 +70,11 @@
                                 <Setter Property="Margin" Value="10,0,10,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button Content="New" Click="b_newSLP_Click"/>
-                        <Button Content="Save" Click="b_saveSLP_Click"/>
-                        <Button Content="Load" Click="b_loadSLP_Click"/>
+                        <Button ToolTip="Create a new randomly initialized Single Layer Perceptron." Content="New" Click="b_newSLP_Click"/>
+                        <Button ToolTip="Saves the current Single Layer Perceptron." Content="Save" Click="b_saveSLP_Click"/>
+                        <Button ToolTip="Loads a saved Single Layer Peceptron." Content="Load" Click="b_loadSLP_Click"/>
                     </StackPanel>
-                    <DockPanel Margin="0,5" DockPanel.Dock="Top">
+                    <DockPanel ToolTip="Feature not yet implemented." Margin="0,5" DockPanel.Dock="Top">
                         <GroupBox DockPanel.Dock="Right" VerticalAlignment="Top" Header="Display" Margin="2">
                             <StackPanel>
                                 <RadioButton Content="Overview" IsChecked="True"/>
@@ -89,8 +89,8 @@
                     </DockPanel>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Multi Layer">
-
+            <TabItem ToolTip="Multi Layer Perceptron" Header="Multi Layer">
+                <Label Content="Not yet implemented." HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </TabItem>
         </TabControl>
         <Button Grid.Row="2" Grid.Column="1" Width="100" Margin="5" Click="b_predictTrain_Click">
@@ -99,18 +99,20 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ElementName=chx_training, Path=IsChecked, Mode=OneWay}" Value="True">
                             <Setter Property="Content" Value="Train"/>
+                            <Setter Property="ToolTip" Value="Trains the neural network and adds the data to training data."/>
                         </DataTrigger>
                     </Style.Triggers>
                     <Setter Property="Content" Value="Predict"/>
+                    <Setter Property="ToolTip" Value="Predicts the character without learning process."/>
                 </Style>
 
             </Button.Style>
         </Button>
-        <CheckBox Name="chx_training" VerticalAlignment="Center" Content="Training" Grid.Row="2" Grid.Column="2" Width="100" Margin="5"/>
+        <CheckBox Name="chx_training" ToolTip="Checked if neural network should train." VerticalAlignment="Center" Content="Training" Grid.Row="2" Grid.Column="2" Width="100" Margin="5"/>
         <DockPanel Grid.Row="2" Grid.Column="3" Margin="5">
             <Label VerticalContentAlignment="Center" DockPanel.Dock="Left" Content="Training Data"/>
-            <Button Content="Open File" DockPanel.Dock="Right" Width="100" Click="b_openFile_Click"/>
-            <TextBox Text="{Binding trainingFilePath}" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
+            <Button ToolTip="Opens a Training Data file and trains the current active neural network." Content="Open File" DockPanel.Dock="Right" Width="100" Click="b_openFile_Click"/>
+            <TextBox IsEnabled="False" Text="{Binding trainingFilePath}" ToolTip="{Binding trainingFilePath}" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
         </DockPanel>
     </Grid>
 </Window>

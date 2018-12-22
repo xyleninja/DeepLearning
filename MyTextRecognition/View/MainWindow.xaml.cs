@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -116,17 +118,43 @@ namespace MyTextRecognition
 
         private void b_newSLP_Click(object sender, RoutedEventArgs e)
         {
-            
+            viewModel.singleLayerPerceptron = new SingleLayerPerceptron(16 * 16, MainWindowViewModel.alphabet.Length);
         }
 
         private void b_saveSLP_Click(object sender, RoutedEventArgs e)
         {
-
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using(var fs = File.Open(saveFileDialog.FileName, FileMode.Create))
+                {
+                    BinaryFormatter binaryFormatter = new BinaryFormatter();
+                    binaryFormatter.Serialize(fs, viewModel.singleLayerPerceptron);
+                }
+            }
         }
 
         private void b_loadSLP_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    using (var fs = File.Open(openFileDialog.FileName, FileMode.Open))
+                    {
+                        BinaryFormatter binaryFormatter = new BinaryFormatter();
+                        viewModel.singleLayerPerceptron = (SingleLayerPerceptron)binaryFormatter.Deserialize(fs);
+                    }
 
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Couldn't load Single Layer Perceptron. File might be corrupted.");
+                }
+            }
         }
 
         private void b_openFile_Click(object sender, RoutedEventArgs e)

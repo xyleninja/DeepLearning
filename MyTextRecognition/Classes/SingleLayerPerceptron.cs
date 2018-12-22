@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace MyTextRecognition
 {
+    [Serializable]
     public class SingleLayerPerceptron
     {
         public List<SLPNode> inputNodes { get; set; } = new List<SLPNode>();
         public List<SLPNode> outputNodes { get; set; } = new List<SLPNode>();
+
+        public SingleLayerPerceptron() { }
 
         public SingleLayerPerceptron(int inputs, int outputs)
         {
@@ -91,6 +94,7 @@ namespace MyTextRecognition
             return result /= 16 * 16;
         }
 
+        [Serializable]
         public class SLPNode
         {
             // public double? bias { get; set; }
