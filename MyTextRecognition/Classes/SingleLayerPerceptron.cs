@@ -32,6 +32,29 @@ namespace MyTextRecognition
 
         }
 
+        public bool[] predict(bool[] input)
+        {
+            bool[] result = new bool[outputNodes.Count];
+
+            for (int i = 0; i < result.Length - 1; i++)
+            {
+                double net = 0;
+                for (int j = 0; j < input.Length - 1; j++)
+                {
+                    if (input[j])
+                        net += 1 * outputNodes[i].weights[inputNodes[j]];
+                    else continue;
+                }
+
+                if (net > 0)
+                    result[i] = true;
+                else
+                    result[i] = false;
+            }
+
+            return result;
+        }
+
         public class SLPNode
         {
             // public double? bias { get; set; }
