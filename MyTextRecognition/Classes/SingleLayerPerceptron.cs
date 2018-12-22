@@ -32,27 +32,63 @@ namespace MyTextRecognition
 
         }
 
-        public bool[] predict(bool[] input)
+        public int predict(bool[] input)
         {
             bool[] result = new bool[outputNodes.Count];
 
+            double maxOutput = 0;
+            int maxIndex = 0;
+
             for (int i = 0; i < result.Length - 1; i++)
             {
-                double net = 0;
-                for (int j = 0; j < input.Length - 1; j++)
-                {
-                    if (input[j])
-                        net += 1 * outputNodes[i].weights[inputNodes[j]];
-                    else continue;
-                }
+                double nodeResult = calcNodeOutput(outputNodes[i], input);
 
-                if (net > 0)
-                    result[i] = true;
-                else
-                    result[i] = false;
+                if (nodeResult > maxOutput)
+                {
+                    maxOutput = nodeResult;
+                    maxIndex = i;
+                }
             }
 
-            return result;
+            return maxIndex;
+        }
+
+        internal void train(bool[] input, bool[] output)
+        {
+            foreach (SLPNode outputNode in outputNodes)
+            {
+                double nodeOutput = calcNodeOutput(outputNode, input);
+                double nodeError = getNodeError(nodeOutput, Convert.ToInt32(output[outputNodes.IndexOf(outputNode)]));
+                updateNodeWeights(outputNode,input,nodeError);
+            }
+        }
+
+        private void updateNodeWeights(SLPNode outputNode, bool[] input, double nodeError)
+        {
+            double LEARNING_RATE = 0.1;
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                if (input[i])
+                    outputNode.weights[inputNodes[i]] += LEARNING_RATE * nodeError;
+            }
+        }
+
+        private double getNodeError(double nodeOutput, int target)
+        {
+            return target - nodeOutput;
+        }
+
+        internal double calcNodeOutput(SLPNode node, bool[] input)
+        {
+            double result = 0;
+
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                if (input[i])
+                    result += 1 * node.weights[inputNodes[i]];
+            }
+
+            return result /= 16 * 16;
         }
 
         public class SLPNode

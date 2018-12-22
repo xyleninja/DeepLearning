@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyTextRecognition"
         mc:Ignorable="d"
+        Closing="Window_Closing"
     Title="My Text Recognition App" MinHeight="300" MinWidth="600" Width="300" Height="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -109,7 +110,7 @@
         <DockPanel Grid.Row="2" Grid.Column="3" Margin="5">
             <Label VerticalContentAlignment="Center" DockPanel.Dock="Left" Content="Training Data"/>
             <Button Content="Open File" DockPanel.Dock="Right" Width="100" Click="b_openFile_Click"/>
-            <TextBox Text="{Binding filePath}" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
+            <TextBox Text="{Binding trainingFilePath}" VerticalContentAlignment="Center" DockPanel.Dock="Left"/>
         </DockPanel>
     </Grid>
 </Window>

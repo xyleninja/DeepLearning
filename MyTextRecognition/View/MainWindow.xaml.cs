@@ -21,11 +21,13 @@ namespace MyTextRecognition
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = new MainWindowViewModel();
+            DataContext = viewModel = new MainWindowViewModel();
         }
 
         private void can_input_DrawRemove(Point notSoPerfectPoint, MouseButtonState leftButton, MouseButtonState rightButton)
@@ -92,28 +94,29 @@ namespace MyTextRecognition
 
         private void b_prevChar_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).prevTrainChar();
+            viewModel.prevTrainChar();
         }
 
         private void b_nextChar_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindowViewModel).nextTrainChar();
+            viewModel.nextTrainChar();
         }
 
         private void b_predictTrain_Click(object sender, RoutedEventArgs e)
         {
             if (chx_training.IsChecked == true)
             {
+                viewModel.train(can_input.Children);
             }
             else if (chx_training.IsChecked == false)
             {
-                (DataContext as MainWindowViewModel).predict(can_input.Children);
+                viewModel.predict(can_input.Children);
             }
         }
 
         private void b_newSLP_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void b_saveSLP_Click(object sender, RoutedEventArgs e)
@@ -131,15 +134,13 @@ namespace MyTextRecognition
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
             if (openFileDialog.ShowDialog() == true)
-                (DataContext as MainWindowViewModel).filePath = openFileDialog.FileName;
+                viewModel.trainingFilePath = openFileDialog.FileName;
         }
 
         private void tbx_output_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!chx_training.IsEnabled)
                 return;
-
-            MainWindowViewModel mainWindowViewModel = (DataContext as MainWindowViewModel);
 
             if (MainWindowViewModel.alphabet.IndexOf(e.Text) < 0)
                 e.Handled = true;
@@ -149,6 +150,11 @@ namespace MyTextRecognition
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            viewModel.closing();
         }
     }
 }
