@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\BoolEqualityComparer.cs" />
+    <Compile Include="Classes\SingleLayerPerceptron.cs" />
     <Compile Include="Model\TrainingData.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Page Include="View\MainWindow.xaml">

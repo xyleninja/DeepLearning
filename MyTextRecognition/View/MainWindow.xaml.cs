@@ -102,7 +102,13 @@ namespace MyTextRecognition
 
         private void b_predictTrain_Click(object sender, RoutedEventArgs e)
         {
-
+            if (chx_training.IsChecked == true)
+            {
+            }
+            else if (chx_training.IsChecked == false)
+            {
+                (DataContext as MainWindowViewModel).predict(can_input.Children);
+            }
         }
 
         private void b_newSLP_Click(object sender, RoutedEventArgs e)

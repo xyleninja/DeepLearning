@@ -8,24 +8,24 @@ namespace MyTextRecognition
 {
     public class SingleLayerPerceptron
     {
-        public List<SLPNode> inputNodes { get; set; }
-        public List<SLPNode> outputNodes { get; set; }
+        public List<SLPNode> inputNodes { get; set; } = new List<SLPNode>();
+        public List<SLPNode> outputNodes { get; set; } = new List<SLPNode>();
 
         public SingleLayerPerceptron(int inputs, int outputs)
         {
-            for (int i = 0; i < inputs - 1; i++)
+            for (int i = 0; i < inputs; i++)
             {
                 inputNodes.Add(new SLPNode());
             }
 
-            for (int i = 0; i < outputs - 1; i++)
+            for (int i = 0; i < outputs; i++)
             {
                 SLPNode outputNode = new SLPNode();
                 Random random = new Random();
 
                 foreach (SLPNode inputNode in inputNodes)
                 {
-                    outputNode.weights.Add(inputNode, random.Next(-1000, 1000) / 1000);
+                    outputNode.weights.Add(inputNode, random.Next(-1000, 1000) * 0.001);
                 }
                 outputNodes.Add(outputNode);
             }
